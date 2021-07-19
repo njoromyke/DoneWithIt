@@ -1,32 +1,31 @@
 import React, { useState } from 'react';
 import {
-  TextInput,
   View,
   StyleSheet,
-  Platform,
   TouchableWithoutFeedback,
   Modal,
   Button,
   FlatList,
-  Picker,
 } from 'react-native';
-import defaultStyles from '../config/styles';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import colors from '../config/colors';
+
 import AppText from './AppText/AppText';
-import Screen from './Screen';
+import defaultStyles from '../config/styles';
 import PickerItem from './PickerItem';
-const AppPicker = ({
+import Screen from './Screen';
+
+function AppPicker({
   icon,
-  placeholder,
   items,
-  slectedItem,
-  width = '100%',
+  numberOfColumns = 1,
   onSelectItem,
   PickerItemComponent = PickerItem,
-  nuberOfColumns = 1,
-}) => {
+  placeholder,
+  selectedItem,
+  width = '100%',
+}) {
   const [modalVisible, setModalVisible] = useState(false);
+
   return (
     <>
       <TouchableWithoutFeedback onPress={() => setModalVisible(true)}>
@@ -39,10 +38,10 @@ const AppPicker = ({
               style={styles.icon}
             />
           )}
-          {slectedItem ? (
-            <AppText style={styles.text}> {slectedItem.label} </AppText>
+          {selectedItem ? (
+            <AppText style={styles.text}>{selectedItem.label}</AppText>
           ) : (
-            <AppText style={styles.placeholder}> {placeholder} </AppText>
+            <AppText style={styles.placeholder}>{placeholder}</AppText>
           )}
 
           <MaterialCommunityIcons
@@ -54,11 +53,11 @@ const AppPicker = ({
       </TouchableWithoutFeedback>
       <Modal visible={modalVisible} animationType='slide'>
         <Screen>
-          <Button title='close' onPress={() => setModalVisible(false)} />
+          <Button title='Close' onPress={() => setModalVisible(false)} />
           <FlatList
             data={items}
-            numColumns={nuberOfColumns}
             keyExtractor={(item) => item.value.toString()}
+            numColumns={numberOfColumns}
             renderItem={({ item }) => (
               <PickerItemComponent
                 item={item}
@@ -74,7 +73,8 @@ const AppPicker = ({
       </Modal>
     </>
   );
-};
+}
+
 const styles = StyleSheet.create({
   container: {
     backgroundColor: defaultStyles.colors.light,
@@ -83,13 +83,14 @@ const styles = StyleSheet.create({
     padding: 15,
     marginVertical: 10,
   },
-
   icon: {
     marginRight: 10,
   },
-  text: { flex: 1 },
   placeholder: {
     color: defaultStyles.colors.medium,
+    flex: 1,
+  },
+  text: {
     flex: 1,
   },
 });
