@@ -2,7 +2,7 @@ import React from 'react';
 import { Image, ImageBackground, StyleSheet, Text, View } from 'react-native';
 import AppButton from '../components/AppButton';
 
-function WelcomeScreen(props) {
+function WelcomeScreen({ navigation }) {
   return (
     <ImageBackground
       blurRadius={1}
@@ -14,8 +14,8 @@ function WelcomeScreen(props) {
         <Text style={styles.tagline}>Sell What You Don't Need</Text>
       </View>
       <View style={styles.buttonContainer}>
-        <AppButton title='Login' />
-        <AppButton title='Register' color='secondary' />
+        <AppButton title='Login' onPress={() => navigation.navigate('Login')} />
+        <AppButton onPress={() => navigation.navigate('Register')} title='Register' color='secondary' />
       </View>
     </ImageBackground>
   );

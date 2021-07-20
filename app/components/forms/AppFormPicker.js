@@ -11,6 +11,7 @@ function AppFormPicker({
   PickerItemComponent,
   placeholder,
   width,
+  
 }) {
   const { errors, setFieldValue, touched, values } = useFormikContext();
 
