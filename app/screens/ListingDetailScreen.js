@@ -1,50 +1,70 @@
-import React from 'react';
-import { Image, View, StyleSheet } from 'react-native';
-import AppText from '../components/AppText/AppText';
-import ListItem from '../components/ListItem';
-import colors from '../config/colors';
+import React from "react";
+import {
+  View,
+  StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
+  Keyboard,
+} from "react-native";
+import { Image } from "react-native-expo-image-cache";
 
-const ListingDetailScreen = ({ route }) => {
+import colors from "../config/colors";
+import ContactSellerForm from "../components/ContactSellerForm";
+import ListItem from "../components/ListItem";
+import AppText  from "../components/AppText/AppText"; 
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+
+function ListingDetailsScreen({ route }) {
   const listing = route.params;
 
   return (
-    <View>
-      <Image style={styles.image} source={listing.images} />
+    <KeyboardAvoidingView
+      behavior="position"
+      keyboardVerticalOffset={Platform.OS === "ios" ? 0 : 100}
+    >
+      <Image
+        style={styles.image}
+        preview={{ uri: listing.images[0].thumbnailUrl }}
+        tint="light"
+        uri={listing.images[0].url}
+      />
       <View style={styles.detailsContainer}>
-        <AppText style={styles.title}> {listing.title} </AppText>
-        <AppText style={styles.price}>$ {listing.price} </AppText>
+        <AppText style={styles.title}>{listing.title}</AppText>
+        <AppText style={styles.price}>${listing.price}</AppText>
         <View style={styles.userContainer}>
           <ListItem
-            image={require('../assets/mosh.jpg')}
-            title='Michael'
-            subTitle='5 Listings'
+            image={require("../assets/mosh.jpg")}
+            title="Mosh Hamedani"
+            subTitle="5 Listings"
           />
         </View>
+        <ContactSellerForm listing={listing} />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
-};
+}
+
 const styles = StyleSheet.create({
-  image: {
-    width: '100%',
-    height: 300,
-  },
   detailsContainer: {
     padding: 20,
   },
-  title: {
-    fontSize: 24,
-    fontWeight: '500',
+  image: {
+    width: "100%",
+    height: 300,
   },
   price: {
     color: colors.secondary,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 20,
     marginVertical: 10,
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: "500",
   },
   userContainer: {
     marginVertical: 40,
   },
 });
 
-export default ListingDetailScreen;
+export default ListingDetailsScreen;
